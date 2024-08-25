@@ -52,7 +52,7 @@ describe('Kanban Board', () => {
       expect.hasAssertions();
       // Use board.addStatus to add a status.
       // Verify that the new status is—in fact—now in board.statuses.
-      expect(board.statuses).includes("Teach Kids")
+      expect(board.statuses).toContain("Teach Kids")
     
     },
   );
@@ -68,7 +68,7 @@ describe('Kanban Board', () => {
     // by default.
 
     // Verify that the status is no longer in in board.statuses.
-    expect(board.statuses).not.includes("Backlog")
+    expect(board.statuses).not.toContain("Backlog")
   });
 });
 
