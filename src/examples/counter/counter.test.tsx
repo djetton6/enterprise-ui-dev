@@ -6,6 +6,7 @@ import Counter from '.';
 
 test('it should render the component', () => {
   render(<Counter />)
+  // serialization of the actual dom - screen.debug(document.body)
 });
 
 test.todo(
