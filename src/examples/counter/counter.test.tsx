@@ -11,6 +11,8 @@ test('it should render the component', () => {
 
 test('it should increment when the "Increment" button is pressed',
   async () => {
+    // better heueristics for the user
+    const user = userEvent.setup()
     render(<Counter />);
     const currentCount = screen.getByTestId('current-count');
 
@@ -18,7 +20,8 @@ test('it should increment when the "Increment" button is pressed',
 
     const button  = screen.getByRole('button', { name: 'Increment'})
     
-    fireEvent.click(button)
+    // better for user testing to use user testing
+    await user.click(button)
     expect(currentCount).toHaveTextContent('1');
     
   },
