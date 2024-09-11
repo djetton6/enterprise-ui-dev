@@ -1,5 +1,6 @@
 import { render, screen } from 'test/utilities';
 import PackingList from '.';
+import { input } from '@testing-library/user-event/dist/types/event';
 
 it('renders the Packing List application', () => {
   render(<PackingList />);
@@ -10,11 +11,22 @@ it('has the correct title', async () => {
   screen.getByText('Packing List');
 });
 
-it.todo('has an input field for a new item', () => {});
+it('has an input field for a new item', () => {
+  render(<PackingList />)
+  const inputField = screen.queryByPlaceholderText("New Item")
+  expect(inputField).toBeVisible()
+}
+);
 
-it.todo(
-  'has a "Add New Item" button that is disabled when the input is empty',
-  () => {},
+it(
+  'has a "Add New Item" button that is disabled when the input is empty', () => {
+    render(<PackingList />);
+    const newItemInput = screen.queryByPlaceholderText("New Item")
+    const addNewItemButton  = screen.getByRole('button', {name: 'Add New Item'})
+
+    expect(newItemInput).toHaveValue('')
+    expect(addNewItemButton).toBeDisabled()
+  },
 );
 
 it.todo(
