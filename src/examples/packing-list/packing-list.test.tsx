@@ -1,6 +1,7 @@
 import { render, screen } from 'test/utilities';
 import PackingList from '.';
 import { input } from '@testing-library/user-event/dist/types/event';
+import userEvent from '@testing-library/user-event';
 
 it('renders the Packing List application', () => {
   render(<PackingList />);
@@ -29,9 +30,20 @@ it(
   },
 );
 
-it.todo(
-  'enables the "Add New Item" button when there is text in the input field',
-  async () => {},
+it(
+  'enables the "Add New Item" button when there is text in the input field', async () => {
+   // be reminded of userevent
+    const {user} = render(<PackingList />);
+    const newItemInput = screen.getByPlaceholderText("New Item")
+    //getByReturns undefined and not NULL! , needed for the user event
+    const addNewItemButton  = screen.getByRole('button', {name: 'Add New Item'})
+
+    await user.type(newItemInput,'PS4')
+
+    expect(newItemInput).toHaveValue('PS4')
+
+    expect(addNewItemButton).toBeEnabled()
+  },
 );
 
 it.todo(
