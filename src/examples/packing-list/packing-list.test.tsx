@@ -1,4 +1,4 @@
-import { render, screen } from 'test/utilities';
+import { render, screen, waitFor } from 'test/utilities';
 import PackingList from '.';
 import { input } from '@testing-library/user-event/dist/types/event';
 import userEvent from '@testing-library/user-event';
@@ -46,7 +46,42 @@ it(
   },
 );
 
-it.todo(
-  'adds a new item to the unpacked item list when the clicking "Add New Item"',
-  async () => {},
+it('adds a new item to the unpacked item list when the clicking "Add New Item"',
+  async () => {
+      const { user } = render(<PackingList />);
+      const newItemInput = screen.getByLabelText('New Item Name');
+      const addNewItemButton  = screen.getByRole('button', {
+        name: 'Add New Item',
+      });
+
+      await user.type(newItemInput, 'MacBook Pro');
+      await user.click(addNewItemButton);
+
+      expect(screen.getByLabelText('MacBook Pro')).not.toBeChecked();
+  },
+);
+
+// how to get test isolation with the getByLabelText? // 
+it('Removes an item' , async () => {
+      const { user } = render(<PackingList />);
+      const newItemInput = screen.getByLabelText('New Item Name');
+      const addNewItemButton  = screen.getByRole('button', {
+        name: 'Add New Item',
+      });
+
+      await user.type(newItemInput, 'MacBook Pro');
+      await user.click(addNewItemButton);
+
+      const removeItem = screen.getByLabelText('Remove MacBook Pro')
+
+      await user.click(removeItem);
+
+      // use waitFor(() => ) for items that need to wait for
+
+      waitFor(() => expect(removeItem).not.toBeInTheDocument());
+
+      
+      
+
+  },
 );
