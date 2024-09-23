@@ -6,6 +6,8 @@ import userEvent from '@testing-library/user-event';
 import { createStore } from './store';
 import { Provider } from 'react-redux';
 
+//overall test -> state mgt and UI are too tightly coupled and can harm tests
+
 // use _render so it can be called differently 
 // const render = (ui: React.ReactElement) => {
 //   return _render(<Provider store={createStore()}> <PackingList /> </Provider>);
