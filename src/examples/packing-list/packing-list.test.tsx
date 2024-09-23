@@ -1,10 +1,31 @@
-import { render, screen, waitFor } from 'test/utilities';
-import PackingList from '.';
-import { input } from '@testing-library/user-event/dist/types/event';
+import { render as _render, screen, waitFor } from 'test/utilities';
+import { PackingList } from './index';
+// import { input } from '@testing-library/user-event/dist/types/event';
 import userEvent from '@testing-library/user-event';
 
+import { createStore } from './store';
+import { Provider } from 'react-redux';
+
+// use _render so it can be called differently 
+// const render = (ui: React.ReactElement) => {
+//   return _render(<Provider store={createStore()}> <PackingList /> </Provider>);
+
+// }
+
+//more abstracted way of doing the provider -
+
+const render: typeof _render = (Component, options) => {
+  const store = createStore();
+
+  const Wrapper = ({ children }: PropsWithChildren) => {
+    return <Provider store={store}>{children}</Provider>
+  };
+
+  return _render(Component, {...options, wrapper: Wrapper})
+}
+// you can pass an postion after renderings.
 it('renders the Packing List application', () => {
-  render(<PackingList />);
+  render(<Provider store={createStore()}> <PackingList /> </Provider>);
 });
 
 it('has the correct title', async () => {
@@ -79,9 +100,5 @@ it('Removes an item' , async () => {
       // use waitFor(() => ) for items that need to wait for
 
       waitFor(() => expect(removeItem).not.toBeInTheDocument());
-
-      
-      
-
   },
 );
